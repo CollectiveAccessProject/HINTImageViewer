@@ -9,7 +9,18 @@ Tileviewer was originally developed for [CollectiveAccess](http://www.collective
 
 Features
 --------
-To come
+Tileviewer is far from the only zooming tiled image viewer out there. There's [OpenSeaDragon](https://openseadragon.github.io), [Zoomify](http://www.zoomify.com), [PanoJS](http://www.dimin.net/software/panojs/) and others. Tileviewer has the basic features you'll see in all of them:
+
+*  Smooth pan and zoom over images of virtually any size.
+*  A navigator indicating the on-screen portion of the image.
+*  A quick way to zoom out to show the entire image.
+*  HTML5-based. Does not require Flash or any other browser plugin. Is compatible with all commonly used web browsers (Chrome, Firefox, Safari, Internet Explorer).
+
+In addition, Tileviewer also includes:
+
+*  Annotation system with support for interactively defined point, rectangle and polygon regions. Each annotation may have an independently placed text box and an optional entry form for an arbitrary set of extended set. Extended data makes possible richly catalogued annotations, as is done in the HINT project. An optional annotation list facilitates navigation between annotated regions.
+*  Tools for adding measurement annotations and specifying the scale of an image in physical units. This allows one to assert the size of a specific image feature, then use that scale to derive the length of other features, as is done in the [iDigPaleo](http://www.idigpaleo.org) project.
+*  Live rotation of images. 
 
 Installation
 ------------
@@ -28,7 +39,62 @@ The following javascript libraries are used by Tileviewer and must be loaded bef
 
 Options
 ------- 
-To come
+
+#### id
+> DOM ID to set internal viewer canvas to [Default: tileviewer]
+
+#### empty
+> color of empty (loading) tile, as hex color, if no subtile is available [Default: #cccccc]
+
+#### src
+> ?
+
+#### width
+> Canvas width (not image width) [Default: 400px]
+
+#### height
+> Canvas height (not image height) [Default: 400px]
+
+#### zoomSensitivity
+>  ? [Default: 16]
+
+#### thumbnail
+>  Display thumbnail? [Default: false]
+
+#### debug
+>  ? [Default: false]
+
+#### grabberSize
+>  ? [Default: 12]
+
+#### maximumPixelsize
+>  Set this to > 1 if you want to let user to zoom image larger than 100% [Default: 4]
+
+#### thumbDepth
+>  ? [Default: 2]
+
+#### toolbar
+>  List of tools, in order, to display on toolbar. This can be used to control what tools are available or reorder the toolbar. The value is a list of strings, one for each tool. Tools include *zoomIn*, *zoomOut* (image zoom controls), *pan* (pan image by dragging), *toggleAnnotations* (show/hide annotations), *rect* (create rectangular annotation), *point* (create point annotation), *polygon* (create polygon annotation), *measure* (create measurement annotation), *lock* (prevent changes to annotations),  *overview* (toggle visibility of image navigator), *rotation* (toggle visibility of image rotation panel), *expand* (force image to fit to screen), *list* (toggle visibility of annotation list), *download* (download image), *help* (toggle visibility of help text), *key* (toggle visibility of annotation color key). You can also use *separator*  to add a horizontal rule to separate two regions of the toolbar. [Default: ['zoomIn', 'zoomOut', 'pan', 'toggleAnnotations', 'rect', 'point', 'polygon', 'measure', 'lock', 'separator',  'overview', 'rotation', 'expand', 'separator', 'list', 'download', 'help', 'key']]
+
+#### toolbarIcons
+>  Specifies icon to use for each toolbar tool. Keys are tool strings as defined for the *toolbar* option. Values are the HTML used to render the icon. By default [Font-Awesome](https://fortawesome.github.io/Font-Awesome/) icons are used. If you are not loading Font-Awesome on the page including your viewer you will have to override these to use other icons.  [Default: {
+            	'pan': '<i class="fa fa-arrows">',
+            	'toggleAnnotations': '<i class="fa fa-eye"></i>', 
+            	'rect': '<i class="fa fa-square-o"></i>', 
+            	'point': '<i class="fa fa-circle-thin"></i>', 
+            	'polygon': '<i class="fa fa-share-alt"></i>', 
+            	'measure': '<i class="fa fa-text-width"></i>', 
+            	'lock': '<i class="fa fa-lock"></i>', 
+            	'overview': '<i class="fa fa-picture-o"></i>', 
+            	'rotation': '<i class="fa fa-undo"></i>', 
+            	'expand': '<i class="fa fa-expand"></i>', 
+            	'list': '<i class="fa fa-bars"></i>', 
+            	'download': '<i class="fa fa-download"></i>', 
+            	'help': '<i class="fa fa-life-ring"></i>', 
+            	'key': '<i class="fa fa-key"></i>',
+            	'zoomIn': '<i class="fa fa-search-plus"></i>',
+            	'zoomOut': '<i class="fa fa-search-minus"></i>'
+            }]
 
 Demonstration
 -------------
