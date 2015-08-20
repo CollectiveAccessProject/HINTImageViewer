@@ -25,9 +25,9 @@ Forked from Soichi Hayashi's excellent jquery-tileviewer plugin (currently avail
 
 TODO
 ----
-# Reduce or eliminate the number of dependencies; in particular eliminate the dependency on jQuery-UI
-# Add support for tiled image formats other than Tilepic
+*  Reduce or eliminate the number of dependencies; in particular eliminate the dependency on jQuery-UI
+*  Add support for tiled image formats other than Tilepic
 
 Known Issues
 ------------
-# Detection of mouse over on annotations is skewed and incorrect when image is rotated
+*  Detection of mouse over on annotations is skewed and incorrect when image is rotated
