@@ -18,7 +18,7 @@ To come
 Dependencies
 ------------
 
-The following javascript libraries are used by Tileviewer and must be loaded before a viewer in initialized:
+The following javascript libraries are used by Tileviewer and must be loaded before a viewer is initialized:
 
 *  JQuery 1.7+
 *  JQuery.HotKeys
