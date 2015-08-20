@@ -5,7 +5,7 @@ A jQuery plugin implementing an HTML5 viewer for high resolution imagery. Only t
 
 Before an image can be used with Tileviewer it must be broken down into square chunks ("tiles") at various resolutions. The viewer will load these tiles as needed to form the image. While are several tiled image formats in use, Tileviewer currently only supports [Tilepic] (http://docs.collectiveaccess.org/wiki/TilePic), a format developed at the University of California, Berkeley library.
 
-Tileviewer was originally developed for [CollectiveAccess](http://www.collectiveaccess.org), open source collections management software for museums and archives. The version is this repository is extended to fulfill requirements of the Historical Society of Pennsylvania's [Historic Images, New Technologies](https://hsp.org/history-online/historic-images-new-technologies) (HINT) project, with support from the [National Historical Publications and Records Commission](http://www.archives.gov/nhprc/) (NHPRC). All of the changes in this version are also available in the latest CollectiveAccess version.
+Tileviewer was originally developed for [CollectiveAccess](http://www.collectiveaccess.org), open source collections management software for museums and archives. The version is this repository is extended to fulfill requirements of the Historical Society of Pennsylvania's [Historic Images, New Technologies](https://hsp.org/history-online/historic-images-new-technologies) (HINT) project, with support from the [National Historical Publications and Records Commission](http://www.archives.gov/nhprc/) (NHPRC). All of the changes in this version are also available in the latest [CollectiveAccess](https://github.com/collectiveaccess/providence) version.
 
 Features
 --------
@@ -24,6 +24,7 @@ The following javascript libraries are used by Tileviewer and must be loaded bef
 *  JQuery.HotKeys
 *  Brandon Aaron's (http://brandonaaron.net) mousewheel jquery plugin 3.0.3
 *  Circular-Slider (https://github.com/princejwesley/circular-slider)
+*  jQuery-UI 1.9+
 
 Options
 ------- 
@@ -44,6 +45,7 @@ TODO
 *  Reduce or eliminate the number of dependencies; in particular eliminate the dependency on jQuery-UI
 *  Add support for tiled image formats other than Tilepic
 *  Reimplement touch event support (stripped from current code)
+*  Make available via Bower, et al.
 
 Known Issues
 ------------
