@@ -74,27 +74,31 @@ Options
 >  ? [Default: 2]
 
 #### toolbar
->  List of tools, in order, to display on toolbar. This can be used to control what tools are available or reorder the toolbar. The value is a list of strings, one for each tool. Tools include *zoomIn*, *zoomOut* (image zoom controls), *pan* (pan image by dragging), *toggleAnnotations* (show/hide annotations), *rect* (create rectangular annotation), *point* (create point annotation), *polygon* (create polygon annotation), *measure* (create measurement annotation), *lock* (prevent changes to annotations),  *overview* (toggle visibility of image navigator), *rotation* (toggle visibility of image rotation panel), *expand* (force image to fit to screen), *list* (toggle visibility of annotation list), *download* (download image), *help* (toggle visibility of help text), *key* (toggle visibility of annotation color key). You can also use *separator*  to add a horizontal rule to separate two regions of the toolbar. [Default: ['zoomIn', 'zoomOut', 'pan', 'toggleAnnotations', 'rect', 'point', 'polygon', 'measure', 'lock', 'separator',  'overview', 'rotation', 'expand', 'separator', 'list', 'download', 'help', 'key']]
+>  List of tools, in order, to display on toolbar. This can be used to control what tools are available or reorder the toolbar. The value is a list of strings, one for each tool. Tools include *zoomIn*, *zoomOut* (image zoom controls), *pan* (pan image by dragging), *toggleAnnotations* (show/hide annotations), *rect* (create rectangular annotation), *point* (create point annotation), *polygon* (create polygon annotation), *measure* (create measurement annotation), *lock* (prevent changes to annotations),  *overview* (toggle visibility of image navigator), *rotation* (toggle visibility of image rotation panel), *expand* (force image to fit to screen), *list* (toggle visibility of annotation list), *download* (download image), *help* (toggle visibility of help text), *key* (toggle visibility of annotation color key). You can also use *separator*  to add a horizontal rule to separate two regions of the toolbar. [Default: 
+	['zoomIn', 'zoomOut', 'pan', 'toggleAnnotations', 'rect', 'point', 'polygon', 'measure', 'lock', 'separator',  'overview', 'rotation', 'expand', 'separator', 'list', 'download', 'help', 'key']
+]
 
 #### toolbarIcons
->  Specifies icon to use for each toolbar tool. Keys are tool strings as defined for the *toolbar* option. Values are the HTML used to render the icon. By default [Font-Awesome](https://fortawesome.github.io/Font-Awesome/) icons are used. If you are not loading Font-Awesome on the page including your viewer you will have to override these to use other icons.  [Default: {
-            	'pan': '<i class="fa fa-arrows">',
-            	'toggleAnnotations': '<i class="fa fa-eye"></i>', 
-            	'rect': '<i class="fa fa-square-o"></i>', 
-            	'point': '<i class="fa fa-circle-thin"></i>', 
-            	'polygon': '<i class="fa fa-share-alt"></i>', 
-            	'measure': '<i class="fa fa-text-width"></i>', 
-            	'lock': '<i class="fa fa-lock"></i>', 
-            	'overview': '<i class="fa fa-picture-o"></i>', 
-            	'rotation': '<i class="fa fa-undo"></i>', 
-            	'expand': '<i class="fa fa-expand"></i>', 
-            	'list': '<i class="fa fa-bars"></i>', 
-            	'download': '<i class="fa fa-download"></i>', 
-            	'help': '<i class="fa fa-life-ring"></i>', 
-            	'key': '<i class="fa fa-key"></i>',
-            	'zoomIn': '<i class="fa fa-search-plus"></i>',
-            	'zoomOut': '<i class="fa fa-search-minus"></i>'
-            }]
+>  Specifies icon to use for each toolbar tool. Keys are tool strings as defined for the *toolbar* option. Values are the HTML used to render the icon. By default [Font-Awesome](https://fortawesome.github.io/Font-Awesome/) icons are used. If you are not loading Font-Awesome on the page including your viewer you will have to override these to use other icons.  [Default: 
+	{
+		'pan': '<i class="fa fa-arrows">',
+		'toggleAnnotations': '<i class="fa fa-eye"></i>', 
+		'rect': '<i class="fa fa-square-o"></i>', 
+		'point': '<i class="fa fa-circle-thin"></i>', 
+		'polygon': '<i class="fa fa-share-alt"></i>', 
+		'measure': '<i class="fa fa-text-width"></i>', 
+		'lock': '<i class="fa fa-lock"></i>', 
+		'overview': '<i class="fa fa-picture-o"></i>', 
+		'rotation': '<i class="fa fa-undo"></i>', 
+		'expand': '<i class="fa fa-expand"></i>', 
+		'list': '<i class="fa fa-bars"></i>', 
+		'download': '<i class="fa fa-download"></i>', 
+		'help': '<i class="fa fa-life-ring"></i>', 
+		'key': '<i class="fa fa-key"></i>',
+		'zoomIn': '<i class="fa fa-search-plus"></i>',
+		'zoomOut': '<i class="fa fa-search-minus"></i>'
+	}
+]
 
 Demonstration
 -------------
