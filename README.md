@@ -48,3 +48,7 @@ TODO
 Known Issues
 ------------
 *  Detection of mouse over on annotations is skewed and incorrect when image is rotated
+
+License
+-------
+Tileviewer is made available under the [GNU Public License version 3](http://www.gnu.org/licenses/gpl-3.0.en.html).
