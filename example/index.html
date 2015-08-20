@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>jQuery TileViewer Example</title>
+	<link rel="stylesheet" href="../css/jquery.tileviewer.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="../css/circular-slider.css" type="text/css" media="screen" />
+	<link rel='stylesheet' href='../js/jquery-ui/smoothness/jquery-ui-1.9.2.custom.css' type='text/css' media='all'/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<script src='../js/jquery.js' type='text/javascript'></script>
+	<script src='../js/jquery.hotkeys.js' type='text/javascript'></script>
+	<script src='../js/jquery.mousewheel.js' type='text/javascript'></script>
+	<script src='../js/circular-slider.js' type='text/javascript'></script>
+	<script src='../js/jquery.tileviewer.js' type='text/javascript'></script>
+	<script src='../js/jquery-ui/jquery-ui-1.9.2.custom.min.js' type='text/javascript'></script>
+</head>
+<body>
+
+	<script type='text/javascript'>
+		var elem = document.createElement('canvas');
+		if (elem.getContext && elem.getContext('2d')) {
+			jQuery(document).ready(function() {
+				jQuery('#viewerContainer').tileviewer({
+					id: 'viewer',
+					src: 'http://demo.collectiveaccess.org/viewers/apps/tilepic.php?p=http://demo.collectiveaccess.org/media/demo/sample.tpc&t=',
+					width: '100%',
+					height: '100%',
+					annotationLoadUrl: 'annotations.json',
+					//annotationSaveUrl: '/admin/index.php/editor/objects/ObjectEditor/SaveAnnotations/representation_id/44/object_id/42',
+					helpLoadUrl: 'viewerHelp.html',
+					mediaDownloadUrl: null,
+					useKey: false,
+					info: {
+						width: '7426',
+						height: '9155',
+						tilesize: 256,
+						levels: '8'
+					}
+				}); 
+			});
+		}
+	</script>
+	
+	<div id="viewerContainer" style="width: 800px; height: 800px;"></div>
+</body>
+</html>
