@@ -5,6 +5,10 @@ A jQuery plugin implementing an HTML5 viewer for high resolution imagery. Only t
 
 Before an image can be used with Tileviewer it must be broken down into square chunks ("tiles") at various resolutions. The viewer will load these tiles as needed to form the image. While are several tiled image formats in use, Tileviewer currently only supports [Tilepic] (http://docs.collectiveaccess.org/wiki/TilePic), a format developed at the University of California, Berkeley library.
 
+Features
+--------
+To come
+
 Installation
 ------------
 To come
