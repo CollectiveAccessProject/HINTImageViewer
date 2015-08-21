@@ -5,20 +5,20 @@ A jQuery plugin implementing an HTML5 viewer for high resolution imagery. Only t
 
 Before an image can be used with Tileviewer it must be broken down into square chunks ("tiles") at various resolutions. The viewer will load these tiles as needed to form the image. While are several tiled image formats in use, Tileviewer currently only supports [Tilepic] (http://docs.collectiveaccess.org/wiki/TilePic), a format developed at the University of California, Berkeley library.
 
-Tileviewer was originally developed for [CollectiveAccess](http://www.collectiveaccess.org), open source collections management software for museums and archives. The version is this repository is extended to fulfill requirements of the Historical Society of Pennsylvania's [Historic Images, New Technologies](https://hsp.org/history-online/historic-images-new-technologies) (HINT) project, with support from the [National Historical Publications and Records Commission](http://www.archives.gov/nhprc/) (NHPRC). All of the changes in this version are also available in the latest [CollectiveAccess version](https://github.com/collectiveaccess/providence).
+Tileviewer was originally developed for [CollectiveAccess](http://www.collectiveaccess.org), open source collections management software for museums and archives. The version in this repository is extended to fulfill requirements of the Historical Society of Pennsylvania's [Historic Images, New Technologies](https://hsp.org/history-online/historic-images-new-technologies) (HINT) project, with support from the [National Historical Publications and Records Commission](http://www.archives.gov/nhprc/) (NHPRC). All of the changes in this version are also available in the latest [CollectiveAccess version](https://github.com/collectiveaccess/providence).
 
 Features
 --------
 Tileviewer is far from the only zooming tiled image viewer out there. There's [OpenSeaDragon](https://openseadragon.github.io), [Zoomify](http://www.zoomify.com), [PanoJS](http://www.dimin.net/software/panojs/) and others. Tileviewer has the basic features you'll see in all of them:
 
 *  Smooth pan and zoom over images of virtually any size.
-*  A navigator indicating the on-screen portion of the image.
-*  A quick way to zoom out to show the entire image.
+*  A navigator indicating the on-screen portion of the image and providing quick access to other regions.
+*  Convenient zoom out to show the entire image.
 *  HTML5-based. Does not require Flash or any other browser plugin. Is compatible with all commonly used web browsers (Chrome, Firefox, Safari, Internet Explorer).
 
-In addition, Tileviewer also includes:
+In addition, Tileviewer also provides:
 
-*  Annotation system with support for interactively defined point, rectangle and polygon regions. Each annotation may have an independently placed text box and an optional entry form for an arbitrary set of extended set. Extended data makes possible richly catalogued annotations, as is done in the HINT project. An optional annotation list facilitates navigation between annotated regions.
+*  Annotation system with support for interactively defined point, rectangle and polygon regions. Each annotation may have an independently placed text box and an optional entry form for an arbitrary set of extended metadata. Extended metadata makes possible richly catalogued annotations, as is done in the HINT project. An optional annotation list facilitates in-viewer search and quick navigation between annotated regions.
 *  Tools for adding measurement annotations and specifying the scale of an image in physical units. This allows one to assert the size of a specific image feature, then use that scale to derive the length of other features, as is done in the [iDigPaleo](http://www.idigpaleo.org) project.
 *  Live rotation of images. 
 
@@ -35,7 +35,7 @@ To use Tileviewer in a page you first need to pull in jQuery and several jQuery 
 *  [Brandon Aaron's](http://brandonaaron.net) mousewheel jquery plugin 3.0.3
 *  [Circular-Slider](https://github.com/princejwesley/circular-slider)
 *  [jQuery-UI 1.9+](https://jqueryui.com)
-*  [ca.genericpanel.js](https://github.com/collectiveaccess/providence/blob/master/assets/ca/ca.genericpanel.js) *only needed if extended annotation editing is used*
+*  [ca.genericpanel.js](https://github.com/collectiveaccess/providence/blob/master/assets/ca/ca.genericpanel.js) *only needed if extended annotation metadata editing is required*
 
 To use the viewer with default toolbar icons you'll also need to load [Font-Awesome](https://fortawesome.github.io/Font-Awesome/). If you are using your own icons then you won't need Font-Awesome, but you will need to set the *toolbarIcons* and *uiIcons* viewer options (see below).
 
@@ -58,19 +58,19 @@ The &lt;head&gt; of your page might look something like this:
 		<script src='js/jquery.tileviewer.js' type='text/javascript'></script>
 	</head>
 
-Once everything is loaded you can use Tileviewer as you would any other jQuery plugin. Create a &lt;div&gt; on the page and then turn it into a viewer like this:
+Once everything is loaded you can use Tileviewer as you would any other jQuery plugin. Create a &lt;div&gt; on the page and then turn it into a viewer like so:
 
 	jQuery("#mydiv").tileviewer({ ... options ... });
 
 There are many options, but most have reasonable defaults that won't have to change. At a minimum you will need to set two options: *src* and *info*
 
-*src* is the URL of the tile server providing data for the loaded image. Most tile servers take two parameters, the name of the image to view and the tile number to fetch. (Tilepic breaks images into a sequential stream of tiles numbered from 1 to however many tiles are required to cover the image at all required resolutions). The *src* should be the URL required to get tile for the image you want with the parameter for tile number at the end *omitting the tile number*. Ex. *http://demo.collectiveaccess.org/viewers/apps/tilepic.php?p=http://demo.collectiveaccess.org/media/demo/sample.tpc&t=* 
+*src* is the URL of the tile server providing data for the loaded image. Most tile servers take two parameters, the name of the image to view and the tile number to fetch. (Tilepic breaks images into a sequential stream of tiles numbered from 1 to however many tiles are required to cover the image at all required resolutions). The *src* should be the URL required to get tiles for the image you want with the parameter for tile number at the end *omitting the tile number*. Ex. *http://demo.collectiveaccess.org/viewers/apps/tilepic.php?p=http://demo.collectiveaccess.org/media/demo/sample.tpc&t=* 
 
-At the moment Tileviewer only supports Tilepic format images. We plan to extend it to support other tile servers in the near future.
+At the moment Tileviewer only supports Tilepic format images. We plan to extend it to support other tile servers soon.
 
-*info* contains four values about the image needed for display: overall width and height, tile size, and the number of levels. Width and height are the original image dimensions. Tile size is set when encoding an image to Tilepic format and is almost always 256. The number of layers depends upon the image and tile size and is returned by the Tilepic encoding process. You can easily calculate the layer count after the fact if needed. Each layer is half as large as the previous layer, with the smallest layer fitting within a single tile. Halving image size repeatedly until both width and height are less than tile size will give you the layer count.
+*info* contains four key values about the image needed for display in the viewer: overall width and height, tile size, and the number of levels. Width and height are the original image dimensions. Tile size is set when encoding an image to Tilepic format and is almost always 256. The number of layers depends upon the image and tile size and is returned by the Tilepic encoding process. You can easily calculate the layer count after the fact if needed. Each layer is half as large as the previous layer, with the smallest layer fitting within a single tile. Counting iterations while halving image size repeatedly until both width and height are less than tile size will give you the layer count.
 
-Tileviewer requires a browser than supports the &lt;canvas&gt; tag. Just about all do these days but it still is a good idea to check. You can do that with code like this:
+Tileviewer requires a browser that supports the &lt;canvas&gt; tag. Most do these days but it still is a good idea to check. You can do that with code like this:
 
 	var elem = document.createElement('canvas');
 		if (elem.getContext && elem.getContext('2d')) {
@@ -78,7 +78,7 @@ Tileviewer requires a browser than supports the &lt;canvas&gt; tag. Just about a
 		}
 	}
 
-It's also generally a good idea to initialize the viewer after  the DOM is fully loaded using a jQuery.ready(). The code to load a viewer might look something like this:
+It's also generally a good idea to initialize the viewer after the DOM is fully loaded using jQuery.ready(). The code to load a viewer might look something like this:
 
 	<script type='text/javascript'>
 		var elem = document.createElement('canvas');
@@ -99,7 +99,7 @@ It's also generally a good idea to initialize the viewer after  the DOM is fully
 	
 	<div id="viewerContainer" style="width: 800px; height: 800px;"></div>
 
-To use the annotation and measurement features, enabled file downloads and change other behavior see the options list below.
+To use the annotation and measurement features, enable file downloads and change other behavior see the options list below.
 
 Keyboard shortcuts
 ------------------
@@ -335,31 +335,31 @@ Annotation data
 ---------------
 Annotations are stored and loaded separately from the image. They may be stored by any means and in any format, but typically they are serialized in a database. Data for an annotation consists of an identifier, some text and metadata, and a series of *size-relative* coordinates and dimensions. 
 
-A size-relative coordinate represents the distance to the X or Y origin as the percentage of image width or height. Ex. For X coordinates, 0 would indicate the X origin, 100 the extreme right side of the image and 33.33333 a point one-third of the way across the image. Similarly a size-relative dimension represents a fraction of the width or height of the image.
+A size-relative coordinate represents the distance to the X or Y origin as the percentage of image width or height. The origin is taken to be the upper left-hand corner of the image. Ex. For X coordinates, 0 would indicate the X origin, 100 the extreme right side of the image and 33.33333 a point one-third of the way across the image. Similarly a size-relative dimension represents a fraction of the width or height of the image.
 
 The set of coordinates varies by type of annotation. Currently there are four types:
 
 * *Point* The simplest type of annotation, applying to a specific point location. Requires X and Y coordinates for annotation location and text box placement, as well as text box width and height.
 * *Rectangle* A rectangular region. Requires X and Y coordinates for annotation location and text box placement, as well as annotation and text box width and height.
-* *Polygon* An arbitrary closed path passing throught any number of points. Requires a list of X and Y coordinates defining the annotation region, X and Y coordinates for text box placement, and text box width and height.
-* *Measurement* A line segment that represents a measured distance. Requires two X and Y points for annotation location, an X and Y location for text box placement, as well as text box width and height.
+* *Polygon* An arbitrary closed path passing through any number of points. Requires a list of X and Y coordinates defining the annotation region, X and Y coordinates for text box placement, and text box width and height.
+* *Measurement* A line segment that represents a measured distance. Requires two X and Y points for segment location, an X and Y location for text box placement, as well as text box width and height.
 
-The viewer interacts with a server to load annotation data on start up and to record  changes to annotations over time. The viewer loads the initial state of an image's annotation from the URL specified by the *annotationLoadUrl* option. The response should be a JSON list containing as many objects as there are annotations. Each object should contain the following keys:
+The viewer interacts with a server to load annotation data on start up and to record  changes to annotations over time. The viewer loads the initial state of an image's annotations from the URL specified by the *annotationLoadUrl* option. The response should be a JSON list containing as many objects as there are annotations. Each object should contain the following keys:
 
 * *annotation_id* A unique identifier for the annotation. This should be generated in the server-side database.
-* *x* the horizontal location of the annotation in size-relative coordinates 
-* *y* the vertical location of the annotation in size-relative coordinates
-* *w* the size-relative width of the annotation 
-* *h* the size-relative height of the annotation 
-* *tx* the horizontal location of the text box in size-relative coordinates 
-* *ty* the vertical location of the text box in size-relative coordinates
-* *tw* the size-relative width of the text box 
-* *th* the size-relative height of the text box 
-* *points* A list of size-relative X/Y coordinates defining a polygon or measurement line 
-* *label* Text to display in annotation text box
-* *type* Annotation type, one of *point*, *rect*, *polygon*, *measurement*
-* *locked* Indicates if annotation is locked to prevent changes; 0=not locked, 1=locked
-* *key* Annotation color key
+* *x* the horizontal location of the annotation in size-relative coordinates.
+* *y* the vertical location of the annotation in size-relative coordinates.
+* *w* the size-relative width of the annotation.
+* *h* the size-relative height of the annotation. 
+* *tx* the horizontal location of the text box in size-relative coordinates.
+* *ty* the vertical location of the text box in size-relative coordinates.
+* *tw* the size-relative width of the text box.
+* *th* the size-relative height of the text box. 
+* *points* A list of size-relative X/Y coordinates defining a polygon or measurement line.
+* *label* Text to display in annotation text box.
+* *type* Annotation type, one of *point*, *rect*, *polygon*, *measurement*.
+* *locked* Indicates if annotation is locked to prevent changes; 0=not locked, 1=locked.
+* *key* Annotation color key.
 
 When saving changes to image annotations, the viewer will contact the server using the *annotationSaveUrl* with a JSON-format data object. The object has the following keys:
 
@@ -372,7 +372,7 @@ Credits
 -------
 Forked from Soichi Hayashi's excellent jquery-tileviewer plugin (currently available at https://github.com/soichih/jquery-tileviewer) back in 2011, before it was on Github :-)
 
-Developed with support from the National Science Foundation and National Historical Publications and Records Commission, in collaboration with Stony Brook University (State University of New York), Historical Society of Pennsylvania and the Yale Peabody Museum.
+Developed with support from the National Science Foundation and National Historical Publications and Records Commission, in collaboration with Stony Brook University (State University of New York), the [Historical Society of Pennsylvania](http://www.hsp.org) and the Yale Peabody Museum.
 
 TODO
 ----
