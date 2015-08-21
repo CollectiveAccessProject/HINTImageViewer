@@ -21,20 +21,15 @@
 		if (elem.getContext && elem.getContext('2d')) {
 			jQuery(document).ready(function() {
 				jQuery('#viewerContainer').tileviewer({
-					id: 'viewer',
 					src: 'http://demo.collectiveaccess.org/viewers/apps/tilepic.php?p=http://demo.collectiveaccess.org/media/demo/sample.tpc&t=',
-					width: '100%',
-					height: '100%',
-					annotationLoadUrl: 'annotations.json',
-					//annotationSaveUrl: '/admin/index.php/editor/objects/ObjectEditor/SaveAnnotations/representation_id/44/object_id/42',
+					annotationLoadUrl: 'annotations.json', 	/* set to a static JSON file for demonstration purposes */
+					annotationSaveUrl: null, /* you'd need to set this for annotations to actually save! */
 					helpLoadUrl: 'viewerHelp.html',
-					mediaDownloadUrl: null,
-					useKey: false,
 					info: {
-						width: '7426',
-						height: '9155',
+						width: 7426,
+						height: 9155,
 						tilesize: 256,
-						levels: '8'
+						levels: 8
 					}
 				}); 
 			});

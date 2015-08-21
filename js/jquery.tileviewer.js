@@ -54,8 +54,6 @@ var methods = {
         	id: 'tileviewer',
             src: null,
             empty: "#cccccc", //color of empty (loading) tile - if no subtile is available
-            width: 400, //canvas width - not image width
-            height: 300, //canvas height - not image height
             zoomSensitivity: 16, 
             thumbnail: false,//display thumbnail
             debug: false,

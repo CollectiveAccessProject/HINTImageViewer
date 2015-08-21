@@ -28,34 +28,124 @@ An example of the viewer is in the *example/* folder in the GitHub repository. Y
 
 Installation
 ------------
-To come
+To use Tileviewer in a page you first need to pull in jQuery and several jQuery plugins:
 
-Dependencies
-------------
-The following javascript libraries are used by Tileviewer and must be loaded before a viewer is initialized:
+*  [JQuery 1.7+](http://jquery.com)
+*  [JQuery.HotKeys](https://github.com/jeresig/jquery.hotkeys)
+*  [Brandon Aaron's](http://brandonaaron.net) mousewheel jquery plugin 3.0.3
+*  [Circular-Slider](https://github.com/princejwesley/circular-slider)
+*  [jQuery-UI 1.9+](https://jqueryui.com)
+*  [ca.genericpanel.js](https://github.com/collectiveaccess/providence/blob/master/assets/ca/ca.genericpanel.js) *only needed if extended annotation editing is used*
 
-*  JQuery 1.7+
-*  JQuery.HotKeys
-*  Brandon Aaron's (http://brandonaaron.net) mousewheel jquery plugin 3.0.3
-*  Circular-Slider (https://github.com/princejwesley/circular-slider)
-*  jQuery-UI 1.9+
+To use the viewer with default toolbar icons you'll also need to load [Font-Awesome](https://fortawesome.github.io/Font-Awesome/). If you are using your own icons then you won't need Font-Awesome, but you will need to set the *toolbarIcons* and *uiIcons* viewer options (see below).
+
+Next pull in *jquery.tileviewer.js* and *jquery.tileviewer.css*.
+
+The &lt;head&gt; of your page might look something like this:
+
+	<head>
+		<meta charset="utf-8" />
+		<title>jQuery TileViewer Example</title>
+		<link rel="stylesheet" href="css/circular-slider.css" type="text/css" media="screen" />
+		<link rel='stylesheet' href='js/jquery-ui/smoothness/jquery-ui-1.9.2.custom.css' type='text/css' media='all'/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/jquery.tileviewer.css" type="text/css" media="screen" />
+		<script src='js/jquery.js' type='text/javascript'></script>
+		<script src='js/jquery.hotkeys.js' type='text/javascript'></script>
+		<script src='js/jquery.mousewheel.js' type='text/javascript'></script>
+		<script src='js/circular-slider.js' type='text/javascript'></script>
+		<script src='js/jquery-ui/jquery-ui-1.9.2.custom.min.js' type='text/javascript'></script>
+		<script src='js/jquery.tileviewer.js' type='text/javascript'></script>
+	</head>
+
+Once everything is loaded you can use Tileviewer as you would any other jQuery plugin. Create a &lt;div&gt; on the page and then turn it into a viewer like this:
+
+	jQuery("#mydiv").tileviewer({ ... options ... });
+
+There are many options, but most have reasonable defaults that won't have to change. At a minimum you will need to set two options: *src* and *info*
+
+*src* is the URL of the tile server providing data for the loaded image. Most tile servers take two parameters, the name of the image to view and the tile number to fetch. (Tilepic breaks images into a sequential stream of tiles numbered from 1 to however many tiles are required to cover the image at all required resolutions). The *src* should be the URL required to get tile for the image you want with the parameter for tile number at the end *omitting the tile number*. Ex. *http://demo.collectiveaccess.org/viewers/apps/tilepic.php?p=http://demo.collectiveaccess.org/media/demo/sample.tpc&t=* 
+
+At the moment Tileviewer only supports Tilepic format images. We plan to extend it to support other tile servers in the near future.
+
+*info* contains four values about the image needed for display: overall width and height, tile size, and the number of levels. Width and height are the original image dimensions. Tile size is set when encoding an image to Tilepic format and is almost always 256. The number of layers depends upon the image and tile size and is returned by the Tilepic encoding process. You can easily calculate the layer count after the fact if needed. Each layer is half as large as the previous layer, with the smallest layer fitting within a single tile. Halving image size repeatedly until both width and height are less than tile size will give you the layer count.
+
+Tileviewer requires a browser than supports the &lt;canvas&gt; tag. Just about all do these days but it still is a good idea to check. You can do that with code like this:
+
+	var elem = document.createElement('canvas');
+		if (elem.getContext && elem.getContext('2d')) {
+			... viewer code goes here ...	
+		}
+	}
+
+It's also generally a good idea to initialize the viewer after  the DOM is fully loaded using a jQuery.ready(). The code to load a viewer might look something like this:
+
+	<script type='text/javascript'>
+		var elem = document.createElement('canvas');
+		if (elem.getContext && elem.getContext('2d')) {
+			jQuery(document).ready(function() {
+				jQuery('#viewerContainer').tileviewer({
+					src: 'http://demo.collectiveaccess.org/viewers/apps/tilepic.php?p=http://demo.collectiveaccess.org/media/demo/sample.tpc&t=',
+					info: {
+						width: 7426,
+						height: 9155,
+						tilesize: 256,
+						levels: 8
+					}
+				}); 
+			});
+		}
+	</script>
+	
+	<div id="viewerContainer" style="width: 800px; height: 800px;"></div>
+
+To use the annotation and measurement features, enabled file downloads and change other behavior see the options list below.
+
+Keyboard shortcuts
+------------------
+The viewer supports a number of keyboard shortcuts for common actions:
+
+<ul>
+<li><code>space</code> to activate image panning</li>
+<li><code>r</code> to select the rectangle annotation tool</li>
+<li><code>p</code> to select the point annotation tool</li>
+<li><code>y</code> to select the polygon annotation tool</li>
+<li><code>d</code> to delete the selected annotation</li>
+<li><code>n</code> to toggle visibility of the image overview</li>
+<li><code>h</code> to return the image to the centered, zoomed out "home" position</li>
+<li><code>c</code> to toggle visibility of viewer controls</li>
+<li><code>TAB</code> to hide controls and labels</li>
+<li><code>+</code>or <code>]</code> to zoom in in small increments</li>
+<li><code>-</code> or <code>[</code> to zoom out in small increments</li>
+<li><code>←</code>, <code>↑</code>, <code>→</code> or <code>↓</code> to pan the image in small increments</li>
+</ul>
+
 
 Options
 ------- 
+
+### Setup and initialization
+
+#### src
+> The URL to the Tilepic tile server. Most tile servers take two parameters, the name of the image to view and the tile number to fetch. (Tilepic breaks images into a sequential stream of tiles numbered from 1 to however many tiles are required to cover the image at all required resolutions). The *src* should be the URL required to get tile for the image you want with the parameter for tile number at the end *omitting the tile number*. Ex. *http://demo.collectiveaccess.org/viewers/apps/tilepic.php?p=http://demo.collectiveaccess.org/media/demo/sample.tpc&t=*  [REQUIRED]
+
+#### info
+> A javascript object containing values about the image needed for display: overall width and height, tile size, and the number of levels. Width and height are the original image dimensions. Tile size is set when encoding an image to Tilepic format and is almost always 256. The number of layers depends upon the image and tile size and is returned by the Tilepic encoding process. You can easily calculate the layer count after the fact if needed. Each layer is half as large as the previous layer, with the smallest layer fitting within a single tile. Halving image size repeatedly until both width and height are less than tile size will give you the layer count. Ex.
+
+	{
+		width: 7426,
+		height: 9155,
+		tilesize: 256,
+		levels: 8
+	}
+
+[REQUIRED]
+
 #### id
 > DOM ID to set internal viewer canvas to [Default: tileviewer]
 
 #### empty
 > color of empty (loading) tile, as hex color, if no subtile is available [Default: #cccccc]
-
-#### src
-> The URL to the Tilepic tile server. [Default: null]
-
-#### width
-> Canvas width (not image width) [Default: 400px]
-
-#### height
-> Canvas height (not image height) [Default: 400px]
 
 #### zoomSensitivity
 >  Governs how sensitive zooming is. Higher numbers will provide faster zooming. [Default: 16]
@@ -64,7 +154,7 @@ Options
 >  If set image overview (aka. display thumbnail) is displayed on viewer start up. [Default: false]
 
 #### debug
->  Set debugging messages [Default: false]
+>  Output debugging messages [Default: false]
 
 #### maximumPixelsize
 >  Set this to > 1 if you want to let user to zoom image larger than 100% [Default: 4]
@@ -113,20 +203,34 @@ Options
 	}
 ]       
 
-#### annotationLoadUrl
->  URL returning list of annotations for the displayed image. See *Annotation date formats* below for details of the annotation list response. [Default: null]
+#### toolbarZooming
+>  If set zoom in and out controls are shown on toolbar. [Default: false]
 
-#### annotationSaveUrl
->  URL for annotation recording web service. See *Annotation date formats* below for detail of the expected annotation submission and response formats. [Default: null]
+#### sliderZooming
+>  If set zoom in and out controls with magnification slider are shown at top center of viewer. [Default: false]
+
+#### allowRotation
+>  If set image rotation is allowed. [Default: true]
+
+#### mediaDownloadUrl
+>  URL to download displayed media. [Default: null]
 
 #### helpLoadUrl
 >  URL to HTML help document.  [Default: null]
+
+### Annotations 
 
 #### useAnnotations
 >  Allow editing and display of annotations. [Default: true]
 
 #### displayAnnotations
 >  Display annotations on viewer load. [Default: true]
+
+#### annotationLoadUrl
+>  URL returning list of annotations for the displayed image. See *Annotation date formats* below for details of the annotation list response. [Default: null]
+
+#### annotationSaveUrl
+>  URL for annotation recording web service. See *Annotation date formats* below for detail of the expected annotation submission and response formats. [Default: null]
 
 #### lockAnnotations
 >  Lock annotations on viewer load. Annotations will display but user cannot add, remove or drag existing annotations.  [Default: false]
@@ -204,17 +308,7 @@ Options
 #### showKey
 >  If set on-screen annotation color key is displayed on viewer load. [Default: false]
 
-#### toolbarZooming
->  If set zoom in and out controls are shown on toolbar. [Default: false]
-
-#### sliderZooming
->  If set zoom in and out controls with magnification slider are shown at top center of viewer. [Default: false]
-
-#### allowRotation
->  If set image rotation is allowed. [Default: true]
-
-#### mediaDownloadUrl
->  URL to download displayed media. [Default: null]
+### Measurements
 
 #### enableMeasurements
 >  If set, show measurement tool and prompt user to set image scale [Default: true]
@@ -227,15 +321,52 @@ Options
 
 #### imageScaleControlFirstSetText
 >  Text to display to user when first setting scale for an image. [Default: 
-	<div class='tileviewerImageScaleControlsHeader'>A scale must be set for this image before measurements can be evaluated.</div><div class='tileviewerImageScaleControlsHelpText'>Enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>]
+
+	<div class='tileviewerImageScaleControlsHeader'>A scale must be set for this image before measurements can be evaluated.</div><div class='tileviewerImageScaleControlsHelpText'>Enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>
+]
 
 #### imageScaleControlChangeSettingText
 >  Text to display to user when changing scale settings. [Default: 
-	<div class='tileviewerImageScaleControlsHeader'>This image is scaled at %1.</div><div class='tileviewerImageScaleControlsHelpText'>To change scale enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>]
+
+	<div class='tileviewerImageScaleControlsHeader'>This image is scaled at %1.</div><div class='tileviewerImageScaleControlsHelpText'>To change scale enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>
+]
 
 Annotation data
 ---------------
-To come
+Annotations are stored and loaded separately from the image. They may be stored by any means and in any format, but typically they are serialized in a database. Data for an annotation consists of an identifier, some text and metadata, and a series of *size-relative* coordinates and dimensions. 
+
+A size-relative coordinate represents the distance to the X or Y origin as the percentage of image width or height. Ex. For X coordinates, 0 would indicate the X origin, 100 the extreme right side of the image and 33.33333 a point one-third of the way across the image. Similarly a size-relative dimension represents a fraction of the width or height of the image.
+
+The set of coordinates varies by type of annotation. Currently there are four types:
+
+* *Point* The simplest type of annotation, applying to a specific point location. Requires X and Y coordinates for annotation location and text box placement, as well as text box width and height.
+* *Rectangle* A rectangular region. Requires X and Y coordinates for annotation location and text box placement, as well as annotation and text box width and height.
+* *Polygon* An arbitrary closed path passing throught any number of points. Requires a list of X and Y coordinates defining the annotation region, X and Y coordinates for text box placement, and text box width and height.
+* *Measurement* A line segment that represents a measured distance. Requires two X and Y points for annotation location, an X and Y location for text box placement, as well as text box width and height.
+
+The viewer interacts with a server to load annotation data on start up and to record  changes to annotations over time. The viewer loads the initial state of an image's annotation from the URL specified by the *annotationLoadUrl* option. The response should be a JSON list containing as many objects as there are annotations. Each object should contain the following keys:
+
+* *annotation_id* A unique identifier for the annotation. This should be generated in the server-side database.
+* *x* the horizontal location of the annotation in size-relative coordinates 
+* *y* the vertical location of the annotation in size-relative coordinates
+* *w* the size-relative width of the annotation 
+* *h* the size-relative height of the annotation 
+* *tx* the horizontal location of the text box in size-relative coordinates 
+* *ty* the vertical location of the text box in size-relative coordinates
+* *tw* the size-relative width of the text box 
+* *th* the size-relative height of the text box 
+* *points* A list of size-relative X/Y coordinates defining a polygon or measurement line 
+* *label* Text to display in annotation text box
+* *type* Annotation type, one of *point*, *rect*, *polygon*, *measurement*
+* *locked* Indicates if annotation is locked to prevent changes; 0=not locked, 1=locked
+* *key* Annotation color key
+
+When saving changes to image annotations, the viewer will contact the server using the *annotationSaveUrl* with a JSON-format data object. The object has the following keys:
+
+* *save* contains any annotations that need to be saved. Each annotation is represented as an object with all of the keys appropriate to its type (save for *key* which is calculated on the server).
+* *delete* is a list of annotation_ids for annotations to be removed. 
+
+The response is always a JSON object with *error* and *annotation_ids* keys. *error* will be set to an error message or null if no error occurred. *annotation_ids* is a list of annotation_ids that were affected by a *save*. Annotation_ids are not returned for *delete* actions.
 
 Credits
 -------
