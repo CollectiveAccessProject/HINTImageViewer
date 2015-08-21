@@ -226,10 +226,12 @@ Options
 >  Units of *scale* (Ex. in, ft, cm, m) [Default: null]
 
 #### imageScaleControlFirstSetText
->  Text to display to user when first setting scale for an image. [Default: <div class='tileviewerImageScaleControlsHeader'>A scale must be set for this image before measurements can be evaluated.</div><div class='tileviewerImageScaleControlsHelpText'>Enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>]
+>  Text to display to user when first setting scale for an image. [Default: 
+	<div class='tileviewerImageScaleControlsHeader'>A scale must be set for this image before measurements can be evaluated.</div><div class='tileviewerImageScaleControlsHelpText'>Enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>]
 
 #### imageScaleControlChangeSettingText
->  Text to display to user when changing scale settings. [Default: <div class='tileviewerImageScaleControlsHeader'>This image is scaled at %1.</div><div class='tileviewerImageScaleControlsHelpText'>To change scale enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>]
+>  Text to display to user when changing scale settings. [Default: 
+	<div class='tileviewerImageScaleControlsHeader'>This image is scaled at %1.</div><div class='tileviewerImageScaleControlsHelpText'>To change scale enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>]
 
 Annotation data
 ---------------
