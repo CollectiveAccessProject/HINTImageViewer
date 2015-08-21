@@ -22,13 +22,16 @@ In addition, Tileviewer also includes:
 *  Tools for adding measurement annotations and specifying the scale of an image in physical units. This allows one to assert the size of a specific image feature, then use that scale to derive the length of other features, as is done in the [iDigPaleo](http://www.idigpaleo.org) project.
 *  Live rotation of images. 
 
+Demonstration
+-------------
+An example of the viewer is in the *example/* folder in the GitHub repository. You can also see the example at http://demo.collectiveaccess.org/ImageViewerExample/
+
 Installation
 ------------
 To come
 
 Dependencies
 ------------
-
 The following javascript libraries are used by Tileviewer and must be loaded before a viewer is initialized:
 
 *  JQuery 1.7+
@@ -39,7 +42,6 @@ The following javascript libraries are used by Tileviewer and must be loaded bef
 
 Options
 ------- 
-
 #### id
 > DOM ID to set internal viewer canvas to [Default: tileviewer]
 
@@ -47,7 +49,7 @@ Options
 > color of empty (loading) tile, as hex color, if no subtile is available [Default: #cccccc]
 
 #### src
-> ?
+> The URL to the Tilepic tile server. [Default: null]
 
 #### width
 > Canvas width (not image width) [Default: 400px]
@@ -56,22 +58,16 @@ Options
 > Canvas height (not image height) [Default: 400px]
 
 #### zoomSensitivity
->  ? [Default: 16]
+>  Governs how sensitive zooming is. Higher numbers will provide faster zooming. [Default: 16]
 
 #### thumbnail
->  Display thumbnail? [Default: false]
+>  If set image overview (aka. display thumbnail) is displayed on viewer start up. [Default: false]
 
 #### debug
->  ? [Default: false]
-
-#### grabberSize
->  ? [Default: 12]
+>  Set debugging messages [Default: false]
 
 #### maximumPixelsize
 >  Set this to > 1 if you want to let user to zoom image larger than 100% [Default: 4]
-
-#### thumbDepth
->  ? [Default: 2]
 
 #### toolbar
 >  List of tools, in order, to display on toolbar. This can be used to control what tools are available or reorder the toolbar. The value is a list of strings, one for each tool. Tools include *zoomIn*, *zoomOut* (image zoom controls), *pan* (pan image by dragging), *toggleAnnotations* (show/hide annotations), *rect* (create rectangular annotation), *point* (create point annotation), *polygon* (create polygon annotation), *measure* (create measurement annotation), *lock* (prevent changes to annotations),  *overview* (toggle visibility of image navigator), *rotation* (toggle visibility of image rotation panel), *expand* (force image to fit to screen), *list* (toggle visibility of annotation list), *download* (download image), *help* (toggle visibility of help text), *key* (toggle visibility of annotation color key). You can also use *separator*  to add a horizontal rule to separate two regions of the toolbar. [Default: 
@@ -102,9 +98,142 @@ Options
 	}
 ]
 
-Demonstration
--------------
-An example of the viewer is in the *example/* folder in the GitHub repository. You can also see the example at http://demo.collectiveaccess.org/ImageViewerExample/
+#### tooltipClass
+>  CSS class to apply to all toolbar tooltips [Default: tileviewerTooltipFormat]
+            
+#### uiIcons
+> Specifies icon to use for each user interface (non-toolbar) control. Keys are UI control strings: *zoomIn*, *zoomOut* (image zoom buttons to either side of the top-of-viewer zoom slider control displayed when the *sliderZooming* option is set), *lock* (lock control on annotation text boxes), *delete* (delete control on annotation text boxes) and *close* (close box control on annotation text boxes). Values are the HTML used to render the icon. By default [Font-Awesome](https://fortawesome.github.io/Font-Awesome/) icons are used. If you are not loading Font-Awesome on the page including your viewer you will have to override these to use other icons.  [Default: 
+	
+	{
+		'zoomIn': '<i class="fa fa-plus-square-o fa-2x"><i>',
+		'zoomOut': '<i class="fa fa-minus-square-o fa-2x"><i>',
+		'lock': '<i class="fa fa-lock"></i>',
+		'delete': '<i class="fa fa-trash-o"></i>',
+		'close': '<i class="fa fa-times"></i>'
+	}
+]       
+
+#### annotationLoadUrl
+>  URL returning list of annotations for the displayed image. See *Annotation date formats* below for details of the annotation list response. [Default: null]
+
+#### annotationSaveUrl
+>  URL for annotation recording web service. See *Annotation date formats* below for detail of the expected annotation submission and response formats. [Default: null]
+
+#### helpLoadUrl
+>  URL to HTML help document.  [Default: null]
+
+#### useAnnotations
+>  Allow editing and display of annotations. [Default: true]
+
+#### displayAnnotations
+>  Display annotations on viewer load. [Default: true]
+
+#### lockAnnotations
+>  Lock annotations on viewer load. Annotations will display but user cannot add, remove or drag existing annotations.  [Default: false]
+
+#### lockAnnotationText
+>  Lock annotation text on viewer load. Annotation text will display but not be editable. [Default: false]
+
+#### showAnnotationTools
+>  Show annotation tools on viewer load. [Default: true]
+
+#### annotationTextDisplayMode
+>  Determines how viewer displays annotation text: 
+- simultaneous: show all annotation text all the time
+- mouseover: show annotation text only when mouse is over the annotation or it is selected
+- selected: show annotation text only when it is selected 
+[Default: mouseover]
+
+#### annotationColor
+>  Color to use for annotation outlines when not selected. [Default: #000000]
+
+#### annotationColorSelected
+>  Color to use for annotation outlines when selected. [Default: #CC0000]
+
+#### highlightPointsWithCircles
+>  If set viewer will draw circles around point label locations. [Default: true]
+
+#### allowDraggableTextBoxesForRects
+>  If set viewer will draw draggable text boxes for rectangular annotations. [Default: true]
+
+#### annotationEditorPanel
+>  Instance of CollectiveAccess "generic panel" to open extended annotation editor in. [Default: null]
+
+#### annotationEditorUrl
+>  URL for extended annotation editor form. [Default: null]
+
+#### annotationEditorLink
+>  Content of extended annotation editor link. [Default: More]
+
+#### annotationDisplayMode
+>  Determines how annotations are displayed: 
+- perimeter: display by outlining perimeter of annotation
+- center: display by marking center of annotated regions with circles
+[Default: center]
+
+#### annotationDisplayModeCenterColor
+>  The color and opacity of the dot used to mark the center, as an rgba() string. Used when *annotationDisplayMode* option is set to "center",  [Default: rgba(175, 0, 0, 0.4)]
+
+#### allowAnnotationList
+>  If set display of on-screen list of annotations is allowed. [Default: true]
+
+#### annotationList
+>  If set on-screen list of annotations is displayed on viewer load. [Default: false]
+
+#### allowAnnotationSearch
+>  Allow annotation search option in on-screen list of annotations. [Default: true]
+
+#### annotationPrefixText
+>  Text to display before annotation text. [Default: null]
+
+#### defaultAnnotationText
+>  Initial text value for newly created annotations. [Default: null]
+
+#### emptyAnnotationLabelText
+>  Text to display in text box when there is no user-set annotation text. [Default: <span class='tileviewerAnnotationDefaultText'>Enter your annotation</span>]
+
+#### emptyAnnotationEditorText
+>  Text to display in annotation text editor when there is no user-set annotation text. [Default: Type text. Drag to position.]
+
+#### showEmptyAnnotationLabelTextInTextBoxes
+>  If set text specified in the *emptyAnnotationEditorText* is displayed in annotation text editor when no user-set text is available.  [Default: true]
+
+#### useKey
+>  Allow display of on-screen annotation color key. [Default: false]
+
+#### showKey
+>  If set on-screen annotation color key is displayed on viewer load. [Default: false]
+
+#### toolbarZooming
+>  If set zoom in and out controls are shown on toolbar. [Default: false]
+
+#### sliderZooming
+>  If set zoom in and out controls with magnification slider are shown at top center of viewer. [Default: false]
+
+#### allowRotation
+>  If set image rotation is allowed. [Default: true]
+
+#### mediaDownloadUrl
+>  URL to download displayed media. [Default: null]
+
+#### enableMeasurements
+>  If set, show measurement tool and prompt user to set image scale [Default: true]
+
+#### scale
+>  Scale factor for tranlating viewer measurements from relative lengths to physical lengths. [Default: null]
+
+#### measurementUnits
+>  Units of *scale* (Ex. in, ft, cm, m) [Default: null]
+
+#### imageScaleControlFirstSetText
+>  Text to display to user when first setting scale for an image. [Default: <div class='tileviewerImageScaleControlsHeader'>A scale must be set for this image before measurements can be evaluated.</div><div class='tileviewerImageScaleControlsHelpText'>Enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>]
+
+#### imageScaleControlChangeSettingText
+>  Text to display to user when changing scale settings. [Default: <div class='tileviewerImageScaleControlsHeader'>This image is scaled at %1.</div><div class='tileviewerImageScaleControlsHelpText'>To change scale enter the length with units (mm, cm, m, km, in, ft, miles, etc.) of the currently selected measurement below.</div>]
+
+Annotation data
+---------------
+To come
 
 Credits
 -------
@@ -114,7 +243,7 @@ Developed with support from the National Science Foundation and National Histori
 
 TODO
 ----
-*  Reduce or eliminate the number of dependencies; in particular eliminate the dependency on jQuery-UI
+*  Reduce or eliminate the number of dependencies; in particular eliminate the dependency on jQuery-UI and CollectiveAccess ca.genericpanel.js library
 *  Add support for tiled image formats other than Tilepic
 *  Reimplement touch event support (stripped from current code)
 *  Make available via Bower, et al.
